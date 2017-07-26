@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
-            startActivity(new Intent(this, DetailsActivity.class));
+            startActivity(new Intent(this, SigninSuccess.class));
             return true;
         }
 
