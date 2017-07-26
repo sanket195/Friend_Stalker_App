@@ -8,6 +8,7 @@ public class FriendsDetails {
     private String fname;
     private String lname;
     private String email;
+    private long phonenumber;
     private double distance;
     private double latitude;
     private double longitude;
@@ -15,13 +16,20 @@ public class FriendsDetails {
     public FriendsDetails() {
     }
 
-    public FriendsDetails(String fname, String lname, String email, double distance, double latitude, double longitude) {
+    public FriendsDetails(String fname, String lname, String email, long phonenumber, double distance) {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
         this.distance = distance;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.phonenumber = phonenumber;
+    }
+
+    public long getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(long phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getFname() {

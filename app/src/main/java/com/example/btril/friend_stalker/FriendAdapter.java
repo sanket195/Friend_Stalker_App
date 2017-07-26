@@ -9,17 +9,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.btril.friend_stalker.data.FriendsDetails;
+
 import java.util.ArrayList;
 
 /**
  * Created by juhi on 7/24/17.
  */
-public class FriendAdapter extends ArrayAdapter<Friend> {
+public class FriendAdapter extends ArrayAdapter<FriendsDetails> {
 
-    ArrayList<com.example.btril.friend_stalker.Friend> friends_list=null;
+    ArrayList<FriendsDetails> friends_list=null;
     Context context;
 
-    public FriendAdapter(Context context, ArrayList<com.example.btril.friend_stalker.Friend> resource) {
+    public FriendAdapter(Context context, ArrayList<FriendsDetails> resource) {
         super(context, R.layout.friends_detail,resource);
 
         this.context=context;
@@ -42,13 +44,13 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
         TextView friend_latitude=(TextView)convertView.findViewById(R.id.friend_latitude);
         TextView friend_longitude=(TextView)convertView.findViewById(R.id.friend_longitute);
 
-        friend_fn.setText(friends_list.get(position).getfn());
-        friend_ln.setText(friends_list.get(position).getLn());
+        friend_fn.setText(friends_list.get(position).getFname());
+        friend_ln.setText(friends_list.get(position).getLname());
         friend_email.setText(friends_list.get(position).getEmail());
-        friend_ln.setText(String.valueOf(friends_list.get(position).getNumber()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getdistance()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getlatitude()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getlongitude()));
+        friend_ln.setText(String.valueOf(friends_list.get(position).getPhonenumber()));
+        friend_ln.setText(String.valueOf(friends_list.get(position).getDistance()));
+        friend_ln.setText(String.valueOf(friends_list.get(position).getLatitude()));
+        friend_ln.setText(String.valueOf(friends_list.get(position).getLongitude()));
 
         return convertView;
 
