@@ -15,53 +15,51 @@ import android.widget.Toast;
 
 public class RegisterActivity extends Activity {
 
-    private EditText fullname,email,password;
+    private EditText fullname, email, password;
     private Button register; // created a button object
     private Button signinto;
     private ProgressDialog progressDialog;
 
-    public static final String LOG_TAG=RegisterActivity.class.getSimpleName();
+    public static final String LOG_TAG = RegisterActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
 
         fullname = (EditText) findViewById(R.id.register_fullname);
-        email =(EditText) findViewById(R.id.register_email);
+        email = (EditText) findViewById(R.id.register_email);
         password = (EditText) findViewById(R.id.register_password);
-        register =(Button) findViewById(R.id.register_button);
+        register = (Button) findViewById(R.id.register_button);
         signinto = (Button) findViewById(R.id.sign_into);
 
-        signinto.setOnClickListener(new View.OnClickListener()
-                                    {
-                                        public void onClick(View view)
-                                        {
-                                            Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+        signinto.setOnClickListener(new View.OnClickListener() {
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
                                     }
         );
 
-        register.setOnClickListener(new View.OnClickListener(){
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
+        register.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                String name=fullname.getText().toString();
-                String emailid= email.getText().toString();
-                String pswd=password.getText().toString();
-                if(!name.isEmpty() && !emailid.isEmpty() && !pswd.isEmpty())
-                {
-                    register_validate(name,emailid,pswd);
+                String name = fullname.getText().toString();
+                String emailid = email.getText().toString();
+                String pswd = password.getText().toString();
 
-                }else{
-                    Toast.makeText(RegisterActivity.this,"Enter the Details",
-                            Toast.LENGTH_LONG).show();
+                /*Checks if user has entered information in all three mandatory fields
+                * else shows an error for each value that has not been assigned yet*/
+                if (name.isEmpty()) {
+                    fullname.setError("Mandatory Field");
+                } else if (emailid.isEmpty()) {
+                    email.setError("Mandatory Field");
+                } else if (pswd.isEmpty()) {
+                    password.setError("Mandatory Field");
+                } else {
+                    register_validate(name, emailid, pswd);
                 }
             }
         });
@@ -72,16 +70,14 @@ public class RegisterActivity extends Activity {
         //TODO Validation for name emailid and password
 
     }
-    public void showDialog()
-    {
-        if(!progressDialog.isShowing())
+
+    public void showDialog() {
+        if (!progressDialog.isShowing())
             progressDialog.show();
     }
 
-    public void hideDialog()
-    {
-        if(progressDialog.isShowing())
-        {
+    public void hideDialog() {
+        if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }

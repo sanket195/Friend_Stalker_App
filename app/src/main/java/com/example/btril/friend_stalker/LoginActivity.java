@@ -96,10 +96,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         register.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // TODO(2) add code to go to link register activity
-
+                // add code to go to link register activity
+                Intent intent = new Intent((LoginActivity.this), RegisterActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
+
+        /*TODO Trilok - should fix the error throwing fields with incorrect details*/
 
         signin.setOnClickListener(new View.OnClickListener(){
 
@@ -151,6 +155,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
+    /**
+     * If there are form errors (invalid email, missing fields, etc.), the
+     * errors are presented and no actual login attempt is made.
+     */
+
+
+    private boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        String emailValidator = loginEmail.getText().toString().trim();
+        return emailValidator.matches("[a-zA-Z0-9._-]+@[a-z]+\\\\.+[a-z]+");
+    }
+
+    private boolean isPasswordValid(String password) {
+        //TODO: Replace this with your own logic
+        return password.length() > 4;
+    }
+
+
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -171,24 +193,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }
         return false;
-    }
-
-
-    /**
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        String emailValidator = loginEmail.getText().toString().trim();
-        return emailValidator.matches("[a-zA-Z0-9._-]+@[a-z]+\\\\.+[a-z]+");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
     }
 
     /**
