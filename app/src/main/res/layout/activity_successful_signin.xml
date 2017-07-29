@@ -39,7 +39,7 @@
             android:layout_below="@+id/list_friends_btn"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
-            android:text="Invite Friends"/>
+            android:text="Add Friends"/>
 
         <Button
             android:id="@+id/accept_btn"
