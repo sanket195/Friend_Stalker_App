@@ -1,4 +1,4 @@
-package com.example.btril.friend_stalker.data;
+package com.example.btril.friend_stalker.handlers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -51,9 +51,6 @@ public class DrawerAdapter extends BaseAdapter {
 // we get the inflator in the constructor.
         if (converView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            //  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //   }
 
             view = inflater.inflate(R.layout.ui_items, null);
         } else {

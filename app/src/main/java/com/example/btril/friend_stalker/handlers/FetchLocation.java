@@ -1,4 +1,4 @@
-package com.example.btril.friend_stalker.data;
+package com.example.btril.friend_stalker.handlers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.btril.friend_stalker.data.Config;
+import com.example.btril.friend_stalker.data.Controller;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +27,7 @@ import java.util.Map;
 
 public class FetchLocation{
     public static final String LOG_TAG = FetchLocation.class.getSimpleName();
-    GpsTrackingActivity gps;
+    GPSTrackingActivity gps;
 
 
 
@@ -37,7 +39,7 @@ public class FetchLocation{
         //selecting query for email if exsit then update the value or else INSERT
         double latitudeDouble =0.0,longitudeDouble = 0.0;
 
-        gps = new GpsTrackingActivity(context) {
+        gps = new GPSTrackingActivity(context) {
             @Nullable
             @Override
             public IBinder onBind(Intent intent) {

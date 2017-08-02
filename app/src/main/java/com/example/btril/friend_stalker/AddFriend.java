@@ -57,7 +57,7 @@ public class AddFriend extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
-            startActivity(new Intent(this, SigninSuccess.class));
+            startActivity(new Intent(this, SignInSuccess.class));
             return true;
         }
 
@@ -87,7 +87,7 @@ public class AddFriend extends AppCompatActivity {
                 addFriendEMail(friendMailID.getText().toString().trim(), sh.getPreferenceName().toString().trim());
                 Log.d(TAG, friendMailID.getText().toString());
 
-                Intent i = new Intent(AddFriend.this, SigninSuccess.class);
+                Intent i = new Intent(AddFriend.this, SignInSuccess.class);
                 startActivity(i);
                 finish();
 
