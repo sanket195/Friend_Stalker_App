@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
 
-        if (id == R.id.logout) {
+        if (id == R.id.signout) {
             startActivity(new Intent(this, LoginActivity.class));
             return true;
         }

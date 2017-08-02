@@ -13,9 +13,4 @@
     <string name="error_field_required">Mandatory Field</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
-    <string name="register">REgister</string>
-    <string name="login">Login</string>
-    <string name="password_hint">Password</string>
-    <string name="email_hint">Email</string>
-    <string name="hint_name">Name</string>
 </resources>
