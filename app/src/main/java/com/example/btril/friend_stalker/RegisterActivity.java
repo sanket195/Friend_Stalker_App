@@ -60,7 +60,7 @@ public class RegisterActivity extends Activity {
 
         if(session.isLoggedIn())
         {
-            Intent intent = new Intent(this,SigninSuccess.class);
+            Intent intent = new Intent(this,SignInSuccess.class);
             startActivity(intent);
             finish();
         }
@@ -127,7 +127,7 @@ public class RegisterActivity extends Activity {
                                 session.setLogin(true);
                                 session.setPreferenceName(email);
                                 Intent intent = new Intent(RegisterActivity.this,
-                                        SigninSuccess.class);
+                                        SignInSuccess.class);
                                 startActivity(intent);
                                 finish();
                             }

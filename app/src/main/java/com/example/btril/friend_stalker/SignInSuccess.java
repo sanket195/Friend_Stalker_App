@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.btril.friend_stalker.data.DrawerAdapter;
+import com.example.btril.friend_stalker.handlers.DrawerAdapter;
 import com.example.btril.friend_stalker.handlers.SQLiteHandler;
 import com.example.btril.friend_stalker.handlers.SessionHandler;
 
