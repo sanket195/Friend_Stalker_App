@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.btril.friend_stalker.data.DrawerAdapter;
 import com.example.btril.friend_stalker.handlers.SQLiteHandler;
 import com.example.btril.friend_stalker.handlers.SessionHandler;
 
@@ -25,15 +26,15 @@ import java.util.HashMap;
  * Created by RAVI on 7/24/2017.
  */
 
-public class SigninSuccess extends Activity {
+public class SignInSuccess extends Activity {
 
     //UI
-    public class NavItem {
+    public class NavigationItem {
         public String title;
         public String subtitle;
         public int icon;
 
-        public NavItem(String title, String subtitle, int icon) {
+        public NavigationItem(String title, String subtitle, int icon) {
             this.title = title;
             this.subtitle = subtitle;
             this.icon = icon;
@@ -45,10 +46,10 @@ public class SigninSuccess extends Activity {
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
 
-    ArrayList<NavItem> items = new ArrayList<NavItem>();
+    ArrayList<NavigationItem> items = new ArrayList<NavigationItem>();
 
 
-    public static final String LOG_TAG = SigninSuccess.class.getSimpleName();
+    public static final String LOG_TAG = SignInSuccess.class.getSimpleName();
 
     private TextView emailTV, nameTV;
     private Button logout;
@@ -72,7 +73,7 @@ public class SigninSuccess extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
-            startActivity(new Intent(this, SigninSuccess.class));
+            startActivity(new Intent(this, SignInSuccess.class));
             return true;
         }
 
@@ -93,9 +94,9 @@ public class SigninSuccess extends Activity {
 
         //UI
         // TODO add icons to the respective name (Trilok)
-        /*items.add(new NavItem("Home", "Check out Freinds", R.drawable.app_icon1));
-        items.add(new NavItem("Logout", "Say Bye to This App", R.drawable.app_icon2));
-        items.add(new NavItem("About", "Get to know about us", R.drawable.app_icon3));*/
+        /*items.add(new NavigationItem("Home", "Check out Freinds", R.drawable.app_icon1));
+        items.add(new NavigationItem("Logout", "Say Bye to This App", R.drawable.app_icon2));
+        items.add(new NavigationItem("About", "Get to know about us", R.drawable.app_icon3));*/
 
         // DrawerLayout
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -106,6 +107,9 @@ public class SigninSuccess extends Activity {
         drawerList = (ListView) findViewById(R.id.navList);
 
         // TODO: Juhi add adapter
+
+        DrawerAdapter adapter= new DrawerAdapter(this,items);
+        drawerList.setAdapter(adapter);
        
 
         // Drawer Item click listeners
@@ -150,7 +154,7 @@ public class SigninSuccess extends Activity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SigninSuccess.this, AddFriend.class);
+                Intent i = new Intent(SignInSuccess.this, AddFriend.class);
                 startActivity(i);
                 finish();
 
@@ -160,7 +164,7 @@ public class SigninSuccess extends Activity {
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SigninSuccess.this, AcceptFriend.class);
+                Intent i = new Intent(SignInSuccess.this, AcceptFriend.class);
                 startActivity(i);
                 finish();
 
@@ -170,7 +174,7 @@ public class SigninSuccess extends Activity {
         listFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SigninSuccess.this, MyFriends.class);
+                Intent i = new Intent(SignInSuccess.this, MyFriends.class);
                 startActivity(i);
                 finish();
 
@@ -182,7 +186,7 @@ public class SigninSuccess extends Activity {
     private void logoutUser(){
         session.setLogin(false);
         db.deleteUser();
-        Intent i = new Intent(SigninSuccess.this, LoginActivity.class);
+        Intent i = new Intent(SignInSuccess.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
@@ -194,7 +198,7 @@ public class SigninSuccess extends Activity {
 
         switch (position){
             case 0: {
-                Intent i = new Intent(SigninSuccess.this, SigninSuccess.class);
+                Intent i = new Intent(SignInSuccess.this, SignInSuccess.class);
                 startActivity(i);
                 finish();
                 break;
