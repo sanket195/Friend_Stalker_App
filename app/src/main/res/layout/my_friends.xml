@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="64dp"
+    android:paddingRight="64dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    tools:context="com.example.btril.friend_stalker.MyFriends">
+
+    <Button
+        android:id="@+id/getDataClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:Onclick="connect_to_db"
+        android:text="Click me to see data"/>
+
+    <ListView
+        android:id="@+id/friends_display_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>
