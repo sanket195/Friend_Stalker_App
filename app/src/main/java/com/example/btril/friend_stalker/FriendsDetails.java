@@ -1,7 +1,7 @@
-package com.example.btril.friend_stalker.data;
+package com.example.btril.friend_stalker;
 
 /**
- * Created by btril on 07/16/17.
+ * Created by sanket on 8/2/2017.
  */
 
 public class FriendsDetails {
@@ -80,5 +80,3 @@ public class FriendsDetails {
         this.longitude = longitude;
     }
 }
-
-
