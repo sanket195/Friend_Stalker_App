@@ -106,7 +106,6 @@ public class SignInSuccess extends Activity {
         drawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         drawerList = (ListView) findViewById(R.id.navList);
 
-        // TODO: Juhi add adapter
 
         DrawerAdapter adapter= new DrawerAdapter(this,items);
         drawerList.setAdapter(adapter);
