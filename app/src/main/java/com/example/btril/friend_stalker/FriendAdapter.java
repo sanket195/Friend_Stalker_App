@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.btril.friend_stalker.data.FriendsDetails;
+
 import java.util.ArrayList;
 
 /**

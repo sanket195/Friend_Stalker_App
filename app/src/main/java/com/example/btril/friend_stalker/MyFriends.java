@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.btril.friend_stalker.data.FriendsDetails;
 import com.example.btril.friend_stalker.handlers.SessionHandler;
 
 import org.json.JSONArray;

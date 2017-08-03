@@ -14,7 +14,7 @@
         android:id="@+id/getDataClick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:Onclick="connect_to_db"
+        android:onClick="connect_to_db"
         android:text="Click me to see data"/>
 
     <ListView

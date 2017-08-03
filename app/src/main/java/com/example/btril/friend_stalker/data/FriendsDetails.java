@@ -1,7 +1,7 @@
-package com.example.btril.friend_stalker;
+package com.example.btril.friend_stalker.data;
 
 /**
- * Created by sanket on 8/2/2017.
+ * Created by btril on 07/16/17.
  */
 
 public class FriendsDetails {

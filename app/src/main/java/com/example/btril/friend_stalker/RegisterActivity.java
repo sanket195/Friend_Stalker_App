@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.btril.friend_stalker.data.Config;
 import com.example.btril.friend_stalker.data.Controller;
+import com.example.btril.friend_stalker.handlers.FetchLocation;
 import com.example.btril.friend_stalker.handlers.SQLiteHandler;
 import com.example.btril.friend_stalker.handlers.SessionHandler;
 
@@ -58,9 +59,8 @@ public class RegisterActivity extends Activity {
         session = new SessionHandler(getApplicationContext());
         handler = new SQLiteHandler(getApplicationContext());
 
-        if(session.isLoggedIn())
-        {
-            Intent intent = new Intent(this,SignInSuccess.class);
+        if (session.isLoggedIn()) {
+            Intent intent = new Intent(this, SignInSuccess.class);
             startActivity(intent);
             finish();
         }
@@ -79,44 +79,44 @@ public class RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String name = fullname.getText().toString();
-                String emailid = email.getText().toString();
+                String email_id = email.getText().toString();
                 String pswd = password.getText().toString();
 
                 /*Checks if user has entered information in all three mandatory fields
                 * else shows an error for each value that has not been assigned yet*/
                 if (name.isEmpty()) {
                     fullname.setError("Mandatory Field");
-                } else if (emailid.isEmpty()) {
+                } else if (email_id.isEmpty()) {
                     email.setError("Mandatory Field");
                 } else if (pswd.isEmpty()) {
                     password.setError("Mandatory Field");
                 } else {
-                    register_validate(name,emailid,pswd);
-                    //TODO implement the fetchlocationupdate methods over here
-                                  }
+                    register_validate(name, email_id, pswd);
+                    FetchLocation updateLocation = new FetchLocation();
+                    updateLocation.updateLocationTable(email_id.trim(), RegisterActivity.this);
+
+                }
             }
         });
     }
 
-    private void register_validate(final String name, final String emailid, final String pswd) {
+    private void register_validate(final String name, final String email_id, final String pswd) {
 
-        //Validation for name emailid and password
-        String reg_requst="register_request";
+        //Validation for name email_id and password
+        String reg_requst = "register_request";
         progressDialog.setMessage("Will Register in  ...");
         showDialog();
 
-        final StringRequest stringRequest = new StringRequest (Request.Method.POST,
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 Config.REGISTER_URL,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         hideDialog();
-                        try{
+                        try {
                             JSONObject jsonObject = new JSONObject(response);
                             boolean error = jsonObject.getBoolean("error");
-                            if(!error)
-                            {
+                            if (!error) {
                                 String uid = jsonObject.getString("uid");
 
                                 JSONObject userJsonObject = jsonObject.getJSONObject("user");
@@ -130,16 +130,15 @@ public class RegisterActivity extends Activity {
                                         SignInSuccess.class);
                                 startActivity(intent);
                                 finish();
-                            }
-                            else{
+                            } else {
                                 String errmsg = jsonObject.getString("error_msg");
-                                Toast.makeText(RegisterActivity.this,errmsg,Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, errmsg, Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                },new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, error.getMessage());
@@ -151,13 +150,13 @@ public class RegisterActivity extends Activity {
                 Map<String, String> p = new HashMap<String, String>();
                 p.put("tag", "register");
                 p.put("name", name);
-                p.put("email", emailid);
+                p.put("email", email_id);
                 p.put("password", pswd);
                 return p;
             }
 
         };
-        Controller.getController().addRequestQueue(stringRequest,reg_requst);
+        Controller.getController().addRequestQueue(stringRequest, reg_requst);
     }
 
 
