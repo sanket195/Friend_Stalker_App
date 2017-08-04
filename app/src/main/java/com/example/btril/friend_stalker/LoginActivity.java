@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
         * we specify a parent activity in AndroidManifest.xml*/
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
             startActivity(new Intent(this, SignInSuccess.class));
             return true;
@@ -90,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
