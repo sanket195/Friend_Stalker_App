@@ -154,7 +154,7 @@ public class AddFriend extends AppCompatActivity {
     }
 
     public void hideDialog(){
-        if(progress.isShowing()){
+        if(progress.isShowing() && progress != null){
             progress.dismiss();
         }
     }

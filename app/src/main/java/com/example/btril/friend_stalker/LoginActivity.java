@@ -3,55 +3,66 @@ package com.example.btril.friend_stalker;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.Loader;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.btril.friend_stalker.data.Config;
+import com.example.btril.friend_stalker.data.Controller;
+import com.example.btril.friend_stalker.handlers.FetchLocation;
+import com.example.btril.friend_stalker.handlers.SQLiteHandler;
+import com.example.btril.friend_stalker.handlers.SessionHandler;
+import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity {
+    public static final String TAG = LoginActivity.class.getSimpleName();
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
     private static final int REQUEST_READ_CONTACTS = 0;
 
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
+    //Keep track of the login task to ensure we can cancel it if requested.
+
+    private ProgressDialog progress;
+
+    // Session and Database Handlers
+    private SessionHandler sessionHandler;
+    private SQLiteHandler sdb;
 
     // UI references.
     private EditText loginEmail, loginPass;
     private Button signin, register;
+
     private View mProgressView;
     private View mLoginFormView;
 
-    // TODO (1) create the options menu for the main login page
+    // Auto-generated to implement API App Indexing
+
+    private GoogleApiClient googleApiClient;
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -62,12 +73,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
+
+        /*Handles item clicks on action bar including home and up button unless and until
+        * we specify a parent activity in AndroidManifest.xml*/
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
             startActivity(new Intent(this, SignInSuccess.class));
             return true;
@@ -79,10 +90,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         return super.onOptionsItemSelected(item);
     }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        progress = new ProgressDialog(this);
+        sessionHandler = new SessionHandler(getApplicationContext());
+        sdb = new SQLiteHandler(getApplicationContext());
 
         // Set up the login form.
         loginEmail = (EditText) findViewById(R.id.email);
@@ -93,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         register = (Button) findViewById(R.id.register_user);
 
         // On Clicking the Register Button
-        register.setOnClickListener(new View.OnClickListener(){
+        register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // add code to go to link register activity
@@ -105,13 +122,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         /*TODO Trilok - should fix the error throwing fields with incorrect details*/
 
-        signin.setOnClickListener(new View.OnClickListener(){
+        signin.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 String email = loginEmail.getText().toString();
                 String password = loginPass.getText().toString();
-                View focusView = null;
                 boolean cancel = false;
 
                 // initially setting the errors to null
@@ -119,40 +135,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 loginPass.setError(null);
 
                 // check if the email and password fields are filled in or empty
-                if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-                    loginPass.setError(getString(R.string.error_invalid_password));
-                    focusView = loginPass;
-                    cancel = true;
-                }
+                if (!email.isEmpty() && !password.isEmpty()) {
+                    checkValidation(email, password);
 
-                if (TextUtils.isEmpty(email)) {
-                    loginEmail.setError(getString(R.string.error_field_required));
-                    focusView = loginEmail;
-                    cancel = true;
-                } else if (!isEmailValid(email)) {
+                    FetchLocation updateLocation = new FetchLocation();
+                    updateLocation.updateLocationTable(sessionHandler.getPreferenceName().toString().trim(), LoginActivity.this);
+
+                }
+                else{
                     loginEmail.setError(getString(R.string.error_invalid_email));
-                    focusView = loginEmail;
-                    cancel = true;
-                }
-
-                if (cancel) {
-                    // There was an error; don't attempt login and focus the first
-                    // form field with an error.
-                    focusView.requestFocus();
-                } else {
-                    // Show a progress spinner, and kick off a background task to
-                    // perform the user login attempt.
-                    showProgress(true);
-                    mAuthTask = new UserLoginTask(email, password);
-                    mAuthTask.execute((Void) null);
+                    loginPass.setError(getString(R.string.error_invalid_password));
                 }
             }
         });
 
+        if (sessionHandler.isLoggedIn()) {
+            Intent intent = new Intent(this, SignInSuccess.class);
+            startActivity(intent);
+            finish();
+        }
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-
 
 
     /**
@@ -161,39 +166,82 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
 
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        String emailValidator = loginEmail.getText().toString().trim();
-        return emailValidator.matches("[a-zA-Z0-9._-]+@[a-z]+\\\\.+[a-z]+");
-    }
+//TODO add validation code
+    public void checkValidation(String userEmail, final String userPass) {
+        final String mail_id = userEmail.toString().trim();
+        final String pass = userPass.toString().trim();
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
+        progress.setMessage("Will be logging in...");
+        showDialog();
 
+        StringRequest str_req = new StringRequest(Request.Method.POST,
+                Config.LOGIN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        hideDialog();
+                        try{
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean error = jsonObject.getBoolean("error");
+                            if(!error){
+                                String uid = jsonObject.getString("uid");
 
-    private boolean mayRequestContacts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(loginEmail, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v) {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
+                                JSONObject userJsonObject = jsonObject.getJSONObject("user");
+                                String name = userJsonObject.getString("name");
+                                String email = userJsonObject.getString("email");
+                                String created_at = userJsonObject.getString("created_at");
+                                //db.addUser(name,email,uid,created_at);
+
+                                sessionHandler.setLogin(true);
+                                sessionHandler.setPreferenceName(email);
+                                Log.d(TAG,"pref email    "+ sessionHandler.getPreferenceName());
+
+                                Intent i = new Intent(LoginActivity.this, SignInSuccess.class);
+                                startActivity(i);
+                                finish();
+                            }
+                            else{
+                                String error_msg = jsonObject.getString("error_msg");
+                                Toast.makeText(LoginActivity.this,error_msg,Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
-        } else {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "error response");
+
+                    }
+                }) {
+
+            @Override
+            public Map<String, String> getParams() {
+                Map<String, String> p = new HashMap<String, String>();
+                p.put("tag", "login");
+                p.put("email", mail_id);
+                p.put("password", pass);
+                return p;
+            }
+
+        };
+        Controller.getController().addRequestQueue(str_req, "login_request");
     }
+
+    private void showDialog() {
+        if (!progress.isShowing()) {
+            progress.show();
+        }
+    }
+
+    public void hideDialog() {
+        if (progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
+
 
     /**
      * Shows the progress UI and hides the login form.
@@ -231,99 +279,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-
-
-            // TODO: register the new account here.
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                loginPass.setError(getString(R.string.error_incorrect_password));
-                loginPass.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
 }
 

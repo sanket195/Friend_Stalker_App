@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:text="Settings"
+        android:textAlignment="center"
+        android:textSize="35dp"/>
+    <RelativeLayout
+        android:id="@+id/layTab"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+    </RelativeLayout>
+    <!-- USER ACCOUNT -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:bottom="1px">
+        <!-- Right Side -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp">
+            <!-- Label for User Account-->
+            <RelativeLayout
+                android:id="@+id/userAccountWrapper"
+                android:layout_width="360dp"
+                android:layout_height="40dp">
+                <TextView
+                    android:singleLine="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:text="User Account">
+                </TextView>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- Logout -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:padding="5dp"
+        android:clickable="true"
+        android:onClick="onLogoutClick">
+        <!-- Left Side Icon -->
+        <ImageView
+            android:id="@+id/logoutIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp">
+        </ImageView>
+        <!-- Right Side -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp">
+            <!-- Label -->
+            <RelativeLayout
+                android:id="@+id/logoutWrapper"
+                android:layout_width="300dp"
+                android:layout_height="80dp">
+                <TextView
+                    android:id="@+id/logoutButtonWithName"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:textSize="20dp"
+                    android:text="Logout">
+                </TextView>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    <!-- Change Password -->
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:padding="5dp"
+        android:clickable="true"
+        android:onClick="onChangePasswordClick">
+
+        <!-- Left Side Icon -->
+        <ImageView
+            android:id="@+id/changePasswordIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp">
+        </ImageView>
+        <!-- Right Side -->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp">
+            <!-- Label -->
+            <RelativeLayout
+                android:id="@+id/changePasswordWrapper"
+                android:layout_width="300dp"
+                android:layout_height="80dp">
+                <TextView
+                    android:singleLine="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:textSize="20dp"
+                    android:text="Change Password">
+                </TextView>
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -37,11 +37,7 @@
         </LinearLayout>
 
         <!--friend EMAIL and phone-->
-        <TextView
-            android:id="@+id/friend_phone_number"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+
         <TextView
             android:id="@+id/friend_email"
             android:layout_width="wrap_content"
