@@ -37,8 +37,7 @@ public class FriendAdapter extends ArrayAdapter<FriendsDetails> {
 
         TextView friend_fn=(TextView)convertView.findViewById(R.id.friend_fn);
         TextView friend_ln=(TextView) convertView.findViewById(R.id.friend_ln);
-        TextView friend_email=(TextView)convertView.findViewById(R.id.email);
-        TextView friend_phone_number=(TextView)convertView.findViewById(R.id.friend_phone_number);
+        TextView friend_email=(TextView)convertView.findViewById(R.id.friend_email);
         TextView friend_distance=(TextView)convertView.findViewById(R.id.friend_distance);
 
         TextView friend_latitude=(TextView)convertView.findViewById(R.id.friend_latitude);
@@ -47,10 +46,9 @@ public class FriendAdapter extends ArrayAdapter<FriendsDetails> {
         friend_fn.setText(friends_list.get(position).getFname());
         friend_ln.setText(friends_list.get(position).getLname());
         friend_email.setText(friends_list.get(position).getEmail());
-        friend_ln.setText(String.valueOf(friends_list.get(position).getPhonenumber()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getDistance()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getLatitude()));
-        friend_ln.setText(String.valueOf(friends_list.get(position).getLongitude()));
+        friend_distance.setText(String.valueOf(friends_list.get(position).getDistance()));
+        friend_latitude.setText(String.valueOf(friends_list.get(position).getLatitude()));
+        friend_longitude.setText(String.valueOf(friends_list.get(position).getLongitude()));
 
         return convertView;
 

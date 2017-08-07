@@ -1,7 +1,7 @@
 package com.example.btril.friend_stalker.data;
 
 /**
- * Created by ritapatel on 7/29/17.
+ * Created by btril on 7/29/17.
  */
 
 public class Config {

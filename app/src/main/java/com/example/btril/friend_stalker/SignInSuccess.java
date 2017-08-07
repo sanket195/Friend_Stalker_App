@@ -92,17 +92,13 @@ public class SignInSuccess extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_signin);
 
-        //UI
-        // TODO add icons to the respective name (Trilok)
-        /*items.add(new NavigationItem("Home", "Check out Freinds", R.drawable.app_icon1));
-        items.add(new NavigationItem("Logout", "Say Bye to This App", R.drawable.app_icon2));
-        items.add(new NavigationItem("About", "Get to know about us", R.drawable.app_icon3));*/
+
 
         // DrawerLayout
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
 
-        // Populate the Navigtion Drawer with options
+        // Populate the Navigation Drawer with options
         drawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
         drawerList = (ListView) findViewById(R.id.navList);
 
