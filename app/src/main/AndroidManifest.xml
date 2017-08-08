@@ -12,12 +12,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:theme="@style/Theme.AppCompat.Light"
         android:name=".data.Controller"
         android:allowBackup="true"
         android:icon="@mipmap/stalker"
         android:label="Friend Stalker"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
 
         <activity android:name=".LoginActivity">
@@ -27,14 +27,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignInSuccess" />
+        <activity
+            android:name=".SignInSuccess"
+            android:label="@string/main" />
+
         <activity
             android:name=".RegisterActivity"
-            android:label="Registration Page"
-            android:parentActivityName=".MainActivity">
+            android:label="Registeration Page"
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
+                android:value="com.example.btril.friend_stalker.LoginActivity" />
         </activity>
         <activity
             android:name=".Settings"
@@ -44,7 +47,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
-        <activity android:name=".MyFriends" />
+        <activity
+            android:name=".MyFriends"
+            android:label="My Friends"
+            android:parentActivityName=".MyFriends">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.btril.friend_stalker.MyFriends" />
+        </activity>
         <activity
             android:name=".AddFriend"
             android:label="New Friend"
@@ -72,16 +83,29 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <!--
+                <activity
+                    android:name=".MapFragment"
+                    android:label="MAP" />-->
+        <activity
+            android:name=".AcceptFriend"
+            android:label="Friend Requests"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.btril.friend_stalker.MainActivity" />
+        </activity>
+
 
         <activity
             android:name=".MapFragment"
-            android:label="MAP" />
-        <activity android:name=".AcceptFriend" />
+            android:label="MAP"
+            android:parentActivityName=".MyFriends">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.btril.friend_stalker.MyFriends" />
 
-
-        <activity
-            android:name=".MapsActivity"
-            android:label="Map"></activity>
+        </activity>
     </application>
 
 </manifest>
