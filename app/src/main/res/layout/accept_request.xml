@@ -29,6 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/friendMailID"
+
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
             android:text="Accept" />
 
         <Button
@@ -36,6 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/accptReq"
+
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
             android:layout_marginTop="27dp"
             android:text="Reject" />
 

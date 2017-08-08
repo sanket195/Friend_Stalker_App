@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Friend_Stalker</string>
 
+    <string name="main">Friend Stalker</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
