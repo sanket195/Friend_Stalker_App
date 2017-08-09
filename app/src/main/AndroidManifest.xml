@@ -33,7 +33,7 @@
 
         <activity
             android:name=".RegisterActivity"
-            android:label="Registeration Page"
+            android:label="Registration Page"
             android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -6,8 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.btril.friend_stalker.data.FriendsDetails;
@@ -37,14 +41,17 @@ public class MyFriends extends AppCompatActivity {
     //String mine_lat, mine_lon;
     FriendsDetails this_is_me;
     private SessionHandler session;
+    private ImageView viewAllOnMap;
+    public static ArrayList<FriendsDetails> friendsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_friends);
-
+        friendsList=new ArrayList<>();
         //List to be displayed
         ArrayList<FriendsDetails> friends_List = new ArrayList<FriendsDetails>();
+        viewAllOnMap = (ImageView) findViewById(R.id.view_all_on_map);
 
         lv = (ListView) findViewById(R.id.friends_display_list);
         friend_adapter = new FriendAdapter(this, friends_List);
@@ -57,8 +64,7 @@ public class MyFriends extends AppCompatActivity {
 
         Log.v("renfce ", emailFromSharedPref);///debug
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = lv.getItemAtPosition(position);
                 FriendsDetails f = (FriendsDetails) o;
                 Intent myIntent = new Intent(MyFriends.this, MapFragment.class);
@@ -69,19 +75,28 @@ public class MyFriends extends AppCompatActivity {
                 MyFriends.this.startActivity(myIntent);
             }
         });
+
+        viewAllOnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MyFriends.this, MapFragment.class);
+                MyFriends.this.startActivity(myIntent);
+
+            }
+        });
     }
 
-    public void fetch_data(){
+    public void fetch_data() {
         Fetch_Data c = new Fetch_Data();
         //run background task for fetching data
         c.execute();
     }
 
-    public void connect_to_db(View view){
+    public void connect_to_db(View view) {
         fetch_data();
     }
 
-    public double calculate_distance(String my_lat, String my_lon, String friend_lat, String friend_lon){
+    public double calculate_distance(String my_lat, String my_lon, String friend_lat, String friend_lon) {
 
         Location my_location = new Location("");
         my_location.setLatitude(Double.parseDouble(my_lat));
@@ -93,10 +108,10 @@ public class MyFriends extends AppCompatActivity {
 
         float distanceInMeters = my_location.distanceTo(friend_location);
 
-        String x = String.format("%.2f",distanceInMeters/1000);
+        String x = String.format("%.2f", distanceInMeters / 1000);
         DecimalFormat df = new DecimalFormat();
 
-        double distance  = Double.parseDouble(x);
+        double distance = Double.parseDouble(x);
 
         return distance;
     }
@@ -110,6 +125,13 @@ public class MyFriends extends AppCompatActivity {
 
             friend_adapter.clear();
 
+            if (friends_list.size() > 0) {
+                viewAllOnMap.setVisibility(View.VISIBLE);
+                friendsList.addAll(friends_list);
+
+            } else {
+                viewAllOnMap.setVisibility(View.GONE);
+            }
             lv = (ListView) findViewById(R.id.friends_display_list);
             friend_adapter = new FriendAdapter(MyFriends.this, friends_list);
             //refresh and display the list
@@ -121,9 +143,9 @@ public class MyFriends extends AppCompatActivity {
 
             ArrayList<FriendsDetails> friends_list_return = new ArrayList<FriendsDetails>();
 
-            if(byGetOrPost == 0){
-                try{
-                    String link = "http://nearbyfriendsapplogin.gear.host/include/get_friends.php?user_email="+emailFromSharedPref;
+            if (byGetOrPost == 0) {
+                try {
+                    String link = "http://friend_stalker.gear.host/include/get_friends.php?user_email=" + emailFromSharedPref;
 
                     HttpURLConnection c = null;
 
@@ -144,9 +166,9 @@ public class MyFriends extends AppCompatActivity {
                             String line;
 
                             while ((line = br.readLine()) != null) {
-                                sb.append(line+"\n");
+                                sb.append(line + "\n");
                             }
-                            Log.v("Answer" , sb.toString());
+                            Log.v("Answer", sb.toString());
                             JSONArray friendObject = new JSONArray(sb.toString());
 
                             JSONArray myLocationObject = getMyLocation(emailFromSharedPref);
@@ -159,6 +181,7 @@ public class MyFriends extends AppCompatActivity {
                                 this_is_me.setEmail(friend_email);
                                 this_is_me.setLatitude(Double.parseDouble(jsonObject.getString("lat")));
                                 this_is_me.setLongitude(Double.parseDouble(jsonObject.getString("lon")));
+
 
                             }
                             for (int i = 0; i < friendObject.length(); i++) {
@@ -176,7 +199,7 @@ public class MyFriends extends AppCompatActivity {
                                 Log.v("your lat", lat);
                                 Log.v("your lat", lon);
 
-                                Double distance = calculate_distance(Double.toString(this_is_me.getLatitude()),Double.toString(this_is_me.getLongitude()), lat, lon);
+                                Double distance = calculate_distance(Double.toString(this_is_me.getLatitude()), Double.toString(this_is_me.getLongitude()), lat, lon);
                                 f.setDistance(distance);
                                 friends_list_return.add(f);
 
@@ -184,9 +207,7 @@ public class MyFriends extends AppCompatActivity {
                             Log.v("String Builder", sb.toString());
                             br.close();
                     }
-                }
-
-                catch(Exception e){
+                } catch (Exception e) {
                     Log.v("String Builder", e.getMessage());
                 }
             }
@@ -195,7 +216,7 @@ public class MyFriends extends AppCompatActivity {
     }
 
     private JSONArray getMyLocation(String emailFromSharedPref) {
-        String link1 = "http://nearbyfriendsapplogin.gear.host/include/get_user_lat_lon.php?user_email="+emailFromSharedPref;
+        String link1 = "http://nearbyfriendsapplogin.gear.host/include/get_user_lat_lon.php?user_email=" + emailFromSharedPref;
 
         HttpURLConnection c1 = null;
 
@@ -230,4 +251,37 @@ public class MyFriends extends AppCompatActivity {
         }
         return null;
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+/*Handles click events for the action bar like */
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        if (id == R.id.signout) {
+            session.setLogin(false);
+            Intent i = new Intent(MyFriends.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

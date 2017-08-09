@@ -17,12 +17,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.btril.friend_stalker.data.FriendsDetails;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 /**
  * Created by deeksha on 8/2/2017.
@@ -31,8 +34,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapFragment extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap maps;
-    Intent intent;
+    Bundle intent;
     String email, lat, longi;
+    SupportMapFragment mapFragment;
+
+    private ArrayList<FriendsDetails> arrayList;
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -46,6 +52,7 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         int id = item.getItemId();
         if (id == R.id.home) {
             startActivity(new Intent(this, SignInSuccess.class));
+            finish();
             return true;
         }
         if (id == R.id.signout) {
@@ -63,19 +70,24 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 //                .findFragmentById(R.id.map);
 //        mapFragment.getMapAsync(this);
+        arrayList = new ArrayList<>();
 
-        intent = getIntent();
-        email = intent.getExtras().getString("email");
-        lat = intent.getExtras().getString("lat");
-        longi = intent.getExtras().getString("lon");
+        intent = getIntent().getExtras();
+        if (intent != null) {
+            email = intent.getString("email");
+            lat = intent.getString("lat");
+            longi = intent.getString("lon");
 
-        LocationManager lctnMgr = (LocationManager) getSystemService
-                (Context.LOCATION_SERVICE);
+        } else {
+            arrayList.addAll(MyFriends.friendsList);
+        }
+        LocationManager lctnMgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Please provide permissions to access Location", Toast.LENGTH_LONG).show();
             return;
         }
         String provider = lctnMgr.getBestProvider(criteria, false);
@@ -85,19 +97,24 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
         if (location != null) {
             mylistener.onLocationChanged(location);
         } else {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
+            final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+
         }
 
         // location updates
         lctnMgr.requestLocationUpdates(provider, 10, 0, mylistener);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mymap);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mymap);
         mapFragment.getMapAsync(this);
     }
 
@@ -108,20 +125,33 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Please provide permissions to access Location", Toast.LENGTH_LONG).show();
+
             return;
         }
         maps.setMyLocationEnabled(true);
 
-        LatLng frnlctn = new LatLng(Double.parseDouble(lat),Double.parseDouble(longi));
-        maps.addMarker(new MarkerOptions().position(frnlctn).title(email));
-        maps.moveCamera(CameraUpdateFactory.newLatLng(frnlctn));
-        maps.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        if (intent != null) {
+            LatLng frnlctn = new LatLng(Double.parseDouble(lat), Double.parseDouble(longi));
+            maps.addMarker(new MarkerOptions().position(frnlctn).title(email));
+            maps.moveCamera(CameraUpdateFactory.newLatLng(frnlctn));
+            maps.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+        } else {
+            for (int i = 0; i < arrayList.size(); i++) {
+                LatLng frnlctn = new LatLng(arrayList.get(i).getLatitude(), arrayList.get(i).getLongitude());
+                maps.addMarker(new MarkerOptions().position(frnlctn).title(arrayList.get(i).getEmail()));
+                maps.moveCamera(CameraUpdateFactory.newLatLng(frnlctn));
+            }
+
+            maps.animateCamera(CameraUpdateFactory.zoomTo(10.0f));
+        }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
     }
+
     private class MyLctnListener implements LocationListener {
 
         @Override
@@ -133,7 +163,7 @@ public class MapFragment extends FragmentActivity implements OnMapReadyCallback 
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Toast.makeText(MapFragment.this, provider + "'s status changed to "+status +"!",
+            Toast.makeText(MapFragment.this, provider + "'s status changed to " + status + "!",
                     Toast.LENGTH_SHORT).show();
         }
 

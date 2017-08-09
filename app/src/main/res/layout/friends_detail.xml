@@ -1,74 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
-
-    <!--friend detail content-->
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    app:cardElevation="5dp"
+    card_view:cardCornerRadius="4dp">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.66"
-        android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <!--Friend Names-->
+        <!--friend detail content-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
+            <!--Friend Names-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/friend_fn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/friend_ln"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <!--friend EMAIL and phone-->
             <TextView
-                android:id="@+id/friend_fn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/friend_phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/friend_ln"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/friend_email"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/friend_latitude"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/friend_longitute"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
-        <!--friend EMAIL and phone-->
+        <!--end of friend details content -->
 
+        <!--Friend distance -->
         <TextView
-            android:id="@+id/friend_email"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <TextView
-            android:id="@+id/friend_latitude"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <TextView
-            android:id="@+id/friend_longitute"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-    </LinearLayout >
-
-    <!--end of friend details content -->
-
-    <!--Friend distance -->
-    <TextView
-        android:id="@+id/friend_distance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.34" />
-</LinearLayout>
+            android:id="@+id/friend_distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.34" />
+    </LinearLayout>
 
 
-
-
-
-
+</android.support.v7.widget.CardView>

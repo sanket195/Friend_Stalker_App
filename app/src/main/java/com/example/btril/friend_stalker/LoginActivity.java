@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -64,39 +65,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private GoogleApiClient googleApiClient;
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-
-        /*Handles item clicks on action bar including home and up button unless and until
-        * we specify a parent activity in AndroidManifest.xml*/
-        int id = item.getItemId();
-
-        if (id == R.id.home) {
-            startActivity(new Intent(this, SignInSuccess.class));
-            return true;
-        }
-
-        if (id == R.id.signout) {
-            startActivity(new Intent(this, LoginActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        invalidateOptionsMenu();
         progress = new ProgressDialog(this);
         sessionHandler = new SessionHandler(getApplicationContext());
         sdb = new SQLiteHandler(getApplicationContext());
@@ -120,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*TODO Trilok - should fix the error throwing fields with incorrect details*/
 
         signin.setOnClickListener(new View.OnClickListener() {
 
@@ -141,8 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                     FetchLocation updateLocation = new FetchLocation();
                     updateLocation.updateLocationTable(sessionHandler.getPreferenceName().toString().trim(), LoginActivity.this);
 
-                }
-                else{
+                } else {
                     loginEmail.setError(getString(R.string.error_invalid_email));
                     loginPass.setError(getString(R.string.error_invalid_password));
                 }
@@ -180,10 +153,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         hideDialog();
-                        try{
+                        try {
                             JSONObject jsonObject = new JSONObject(response);
                             boolean error = jsonObject.getBoolean("error");
-                            if(!error){
+                            if (!error) {
                                 String uid = jsonObject.getString("uid");
 
                                 JSONObject userJsonObject = jsonObject.getJSONObject("user");
@@ -194,15 +167,14 @@ public class LoginActivity extends AppCompatActivity {
 
                                 sessionHandler.setLogin(true);
                                 sessionHandler.setPreferenceName(email);
-                                Log.d(TAG,"pref email    "+ sessionHandler.getPreferenceName());
+                                Log.d(TAG, "pref email    " + sessionHandler.getPreferenceName());
 
                                 Intent i = new Intent(LoginActivity.this, SignInSuccess.class);
                                 startActivity(i);
                                 finish();
-                            }
-                            else{
+                            } else {
                                 String error_msg = jsonObject.getString("error_msg");
-                                Toast.makeText(LoginActivity.this,error_msg,Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, error_msg, Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

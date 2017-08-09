@@ -3,30 +3,23 @@ package com.example.btril.friend_stalker;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.btril.friend_stalker.handlers.DrawerAdapter;
 import com.example.btril.friend_stalker.handlers.SQLiteHandler;
 import com.example.btril.friend_stalker.handlers.SessionHandler;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by RAVI on 7/24/2017.
  */
 
-public class SignInSuccess extends Activity {
+public class SignInSuccess extends AppCompatActivity {
 
     //UI
     public class NavigationItem {
@@ -40,13 +33,12 @@ public class SignInSuccess extends Activity {
             this.icon = icon;
         }
     }
+    //  ListView drawerList;
+    //RelativeLayout drawerPane;
+    //private ActionBarDrawerToggle drawerToggle;
+    //private DrawerLayout drawerLayout;
 
-    ListView drawerList;
-    RelativeLayout drawerPane;
-    private ActionBarDrawerToggle drawerToggle;
-    private DrawerLayout drawerLayout;
-
-    ArrayList<NavigationItem> items = new ArrayList<NavigationItem>();
+    //ArrayList<NavigationItem> items = new ArrayList<NavigationItem>();
 
 
     public static final String LOG_TAG = SignInSuccess.class.getSimpleName();
@@ -74,12 +66,15 @@ public class SignInSuccess extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
             startActivity(new Intent(this, SignInSuccess.class));
+            finish();
             return true;
         }
 
         if (id == R.id.signout) {
-            startActivity(new Intent(this, LoginActivity.class));
-            return true;
+            session.setLogin(false);
+            Intent i = new Intent(SignInSuccess.this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -92,41 +87,17 @@ public class SignInSuccess extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_successful_signin);
 
-
-
-        // DrawerLayout
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-
-        // Populate the Navigation Drawer with options
-        drawerPane = (RelativeLayout) findViewById(R.id.drawerPane);
-        drawerList = (ListView) findViewById(R.id.navList);
-
-
-        DrawerAdapter adapter= new DrawerAdapter(this,items);
-        drawerList.setAdapter(adapter);
-       
-
-        // Drawer Item click listeners
-        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItemFromDrawer(position);
-            }
-        });
-
-
         checkTheLoginAndDisplayLogoutButton();
     }
     public void checkTheLoginAndDisplayLogoutButton(){
-        logout = (Button) findViewById(R.id.logout_btn);
+//        logout = (Button) findViewById(R.id.logout_btn);
         invite = (Button) findViewById(R.id.invite_btn);
         accept = (Button) findViewById(R.id.accept_btn);
         listFriends = (Button) findViewById(R.id.list_friends_btn);
         session = new SessionHandler(getApplicationContext());
         db = new SQLiteHandler(getApplicationContext());
 
-        //if the session is loged in then i am moving the user to the detail activity
+        //if the session is logged in then i am moving the user to the detail activity
         if (!session.isLoggedIn()) {
             logoutUser();
         }
@@ -136,23 +107,19 @@ public class SignInSuccess extends Activity {
         String name = userDeatils.get("name");
         String email = userDeatils.get("email");
 
-
-
-        //if register is clicked
-        logout.setOnClickListener(new View.OnClickListener() {
+        /*logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logoutUser();
             }
-        });
+        });*/
 
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(SignInSuccess.this, AddFriend.class);
                 startActivity(i);
-                finish();
-
+                //finish();
             }
         });
 
@@ -162,7 +129,6 @@ public class SignInSuccess extends Activity {
                 Intent i = new Intent(SignInSuccess.this, AcceptFriend.class);
                 startActivity(i);
                 finish();
-
             }
         });
 
@@ -171,12 +137,10 @@ public class SignInSuccess extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(SignInSuccess.this, MyFriends.class);
                 startActivity(i);
-                finish();
-
+                //finish();
             }
         });
     }
-
 
     private void logoutUser(){
         session.setLogin(false);
@@ -186,26 +150,4 @@ public class SignInSuccess extends Activity {
         finish();
     }
 
-
-
-    //UI
-    private void selectItemFromDrawer(int position) {
-
-        switch (position){
-            case 0: {
-                Intent i = new Intent(SignInSuccess.this, SignInSuccess.class);
-                startActivity(i);
-                finish();
-                break;
-            }
-            case 1:
-            {
-                logoutUser();
-                break;
-            }
-
-
-        }
-
-    }
 }
