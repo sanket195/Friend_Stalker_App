@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.btril.friend_stalker.MyFriends">
+    tools:context="com.example.btril.find_buddies.MyFriends">
 
     <LinearLayout
         android:layout_width="match_parent"

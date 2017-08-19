@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.btril.friend_stalker.SignInSuccess">
+    tools:context="com.example.btril.find_buddies.SignInSuccess">
 
     <RelativeLayout
         android:background="@drawable/back"
@@ -15,7 +15,7 @@
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:paddingTop="16dp"
-        tools:context="com.example.btril.friend_stalker.SignInSuccess">
+        tools:context="com.example.btril.find_buddies.SignInSuccess">
 
         <android.support.v7.widget.CardView
             android:id="@+id/list_friends_cv"

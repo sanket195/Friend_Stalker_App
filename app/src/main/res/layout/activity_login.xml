@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/back"
-    tools:context="com.example.btril.friend_stalker.LoginActivity">
+    tools:context="com.example.btril.find_buddies.LoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
