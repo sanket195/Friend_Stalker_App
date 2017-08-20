@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Friend_Stalker.iml" filepath="$PROJECT_DIR$/Friend_Stalker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Friend_Stalker_App.iml" filepath="$PROJECT_DIR$/Friend_Stalker_App.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Find_Buddies.iml" filepath="$PROJECT_DIR$/Find_Buddies.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/myandroid_project.iml" filepath="$PROJECT_DIR$/myandroid_project.iml" />
     </modules>
   </component>
 </project>

@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/Base.ThemeOverlay.AppCompat.ActionBar</item>
+        <item name="android:windowBackground">@drawable/back</item>
     </style>
+
 
 </resources>

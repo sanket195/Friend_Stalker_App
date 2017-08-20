@@ -1,115 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v4.widget.DrawerLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawerLayout"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.btril.find_buddies.SignInSuccess">
 
-    // Main Content View
     <RelativeLayout
-        android:id="@+id/mainContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </RelativeLayout>
-
-    // Code
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.example.btril.freind_stalker.SigninSuccess"
+        android:background="@drawable/back"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="16dp"
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp">
+        tools:context="com.example.btril.find_buddies.SignInSuccess">
 
-        <Button
-            android:id="@+id/list_friends_btn"
+        <android.support.v7.widget.CardView
+            android:id="@+id/list_friends_cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="52dp"
-            android:text="Check NearBy Friends" />
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="4dp"
+            android:layout_marginTop="52dp">
 
-        <Button
-            android:id="@+id/invite_btn"
+            <Button
+                android:id="@+id/list_friends_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/ic_nearby"
+                android:text="Stalk Friends"
+                android:textColor="@color/white"
+                android:textSize="18dp"/>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/invite_cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/list_friends_btn"
+            android:layout_below="@+id/list_friends_cv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
-            android:text="Add Friends"/>
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="4dp">
 
-        <Button
-            android:id="@+id/accept_btn"
+            <Button
+                android:id="@+id/invite_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/ic_add_frnd"
+                android:text="Add Friends"
+                android:textColor="@color/white"
+                android:textSize="18dp"/>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/accept_cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/invite_btn"
+            android:layout_below="@+id/invite_cv"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
-            android:text="Accept Friend Request"/>
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="4dp">
 
-        <Button
-            android:id="@+id/logout_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/accept_btn"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="52dp"
-            android:text="Logout"/>
+            <Button
+                android:id="@+id/accept_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/colorAccent"
+                android:drawableLeft="@drawable/ic_accept"
+                android:text="Accept Friend Request"
+                android:textColor="@color/white"
+                android:textSize="18dp"/>
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
 
-    // Navigation Drawer
-    <RelativeLayout
-        android:id="@+id/drawerPane"
-        android:layout_width="280dp"
-        android:layout_height="match_parent">
-
-        // Profile Box
-        <RelativeLayout
-            android:id="@+id/profileBox"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@id/avatar"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/userName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    />
-
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        // List of Actions(pages)
-        <ListView
-            android:id="@+id/navList"
-            android:layout_width="280dp"
-            android:layout_height="match_parent"
-            android:layout_below="@id/profileBox"
-            android:choiceMode="singleChoice"
-            android:visibility="gone"/>
-
-    </RelativeLayout>
-
-</android.support.v4.widget.DrawerLayout>
+</LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.btril.friend_stalker">
+    package="com.example.btril.find_buddies">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -12,15 +12,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".data.Controller"
+        android:name="com.example.btril.find_buddies.data.Controller"
         android:allowBackup="true"
         android:icon="@mipmap/stalker"
-        android:label="Friend Stalker"
+        android:label="Find Buddies"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name="com.example.btril.find_buddies.MainActivity" />
 
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.example.btril.find_buddies.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,49 +28,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignInSuccess"
+            android:name="com.example.btril.find_buddies.SignInSuccess"
             android:label="@string/main" />
 
         <activity
-            android:name=".RegisterActivity"
-            android:label="Registeration Page"
-            android:parentActivityName=".LoginActivity">
+            android:name="com.example.btril.find_buddies.RegisterActivity"
+            android:label="Registration Page"
+            android:parentActivityName="com.example.btril.find_buddies.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.LoginActivity" />
+                android:value="com.example.btril.find_buddies.LoginActivity" />
         </activity>
         <activity
-            android:name=".Settings"
+            android:name="com.example.btril.find_buddies.Settings"
             android:label="Settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.example.btril.find_buddies.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="MainActivity" />
+                android:value="com.example.btril.find_buddies.MainActivity" />
         </activity>
         <activity
-            android:name=".MyFriends"
+            android:name="com.example.btril.find_buddies.MyFriends"
             android:label="My Friends"
-            android:parentActivityName=".MyFriends">
+            android:parentActivityName="com.example.btril.find_buddies.MyFriends">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.MyFriends" />
+                android:value="com.example.btril.find_buddies.MyFriends" />
         </activity>
         <activity
-            android:name=".AddFriend"
+            android:name="com.example.btril.find_buddies.AddFriend"
             android:label="New Friend"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.example.btril.find_buddies.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.MainActivity" />
+                android:value="com.example.btril.find_buddies.MainActivity" />
         </activity>
         <activity
-            android:name=".AcceptRequest"
+            android:name="com.example.btril.find_buddies.AcceptRequest"
             android:label="Friend Requests"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.example.btril.find_buddies.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.MainActivity" />
+                android:value="com.example.btril.find_buddies.MainActivity" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -88,22 +88,22 @@
                     android:name=".MapFragment"
                     android:label="MAP" />-->
         <activity
-            android:name=".AcceptFriend"
+            android:name="com.example.btril.find_buddies.AcceptFriend"
             android:label="Friend Requests"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="com.example.btril.find_buddies.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.MainActivity" />
+                android:value="com.example.btril.find_buddies.MainActivity" />
         </activity>
 
 
         <activity
-            android:name=".MapFragment"
+            android:name="com.example.btril.find_buddies.MapFragment"
             android:label="MAP"
-            android:parentActivityName=".MyFriends">
+            android:parentActivityName="com.example.btril.find_buddies.MyFriends">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.btril.friend_stalker.MyFriends" />
+                android:value="com.example.btril.find_buddies.MyFriends" />
 
         </activity>
     </application>

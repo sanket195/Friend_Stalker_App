@@ -57,7 +57,7 @@ public class AddFriend extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
-            startActivity(new Intent(this, SignInSuccess.class));
+            onBackPressed();
             return true;
         }
 
@@ -83,13 +83,11 @@ public class AddFriend extends AppCompatActivity {
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, sh.getPreferenceName().toString());
-                addFriendEMail(friendMailID.getText().toString().trim(), sh.getPreferenceName().toString().trim());
-                Log.d(TAG, friendMailID.getText().toString());
 
-                Intent i = new Intent(AddFriend.this, SignInSuccess.class);
-                startActivity(i);
-                finish();
+                    Log.d(TAG, sh.getPreferenceName().toString());
+                    addFriendEMail(friendMailID.getText().toString().trim(), sh.getPreferenceName().toString().trim());
+                    Log.d(TAG, friendMailID.getText().toString());
+
 
             }
         });
@@ -97,55 +95,62 @@ public class AddFriend extends AppCompatActivity {
     }
 
     private void addFriendEMail(final String friendMailID,final String myEmail) {
-        progress.setMessage("Adding Friend In....");
-        showDialog();
+        if (friendMailID.length()>0) {
+            progress.setMessage("Adding Friend In....");
+            showDialog();
 
-        //method type,url,response
-        StringRequest stringRequest = new StringRequest(
-                Request.Method.POST,
-                Config.FRIEND_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        hideDialog();
-                        try{
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean error = jsonObject.getBoolean("error");
+            //method type,url,response
+            StringRequest stringRequest = new StringRequest(
+                    Request.Method.POST,
+                    Config.FRIEND_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            hideDialog();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                boolean error = jsonObject.getBoolean("error");
 
-                            if(!error){
-                                String user_id = jsonObject.getString("user_id");
-                                Log.d(TAG, "EmailID id there" + user_id);
+                                if (!error) {
+                                    String user_id = jsonObject.getString("user_id");
+                                    Log.d(TAG, "EmailID id there" + user_id);
+                                } else {
+                                    String error_msg = jsonObject.getString("error_msg");
+                                    Log.e(TAG, "Error adding Friend" + error_msg);
+                                    Toast.makeText(AddFriend.this, error_msg, Toast.LENGTH_LONG).show();
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            else{
-                                String error_msg = jsonObject.getString("error_msg");
-                                Log.e(TAG, "Error adding Friend" + error_msg);
-                                Toast.makeText(AddFriend.this, error_msg, Toast.LENGTH_LONG).show();
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG, "Error adding Friend" +error.getMessage());
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e(TAG, "Error adding Friend" + error.getMessage());
 
-                    }
-                }) {
+                        }
+                    }) {
 
-            @Override
-            public Map<String, String> getParams() {
-                Map<String, String> p = new HashMap<String, String>();
-                p.put("tag", "invite");
-                p.put("emailfriend", friendMailID);
-                p.put("emailmy", myEmail);
-                return p;
-            }
+                @Override
+                public Map<String, String> getParams() {
+                    Map<String, String> p = new HashMap<String, String>();
+                    p.put("tag", "invite");
+                    p.put("emailfriend", friendMailID);
+                    p.put("emailmy", myEmail);
+                    return p;
+                }
 
-        };
-        Controller.getController().addRequestQueue(stringRequest, "invite_request");
+            };
+            Controller.getController().addRequestQueue(stringRequest, "invite_request");
+            Intent i = new Intent(AddFriend.this, SignInSuccess.class);
+            startActivity(i);
+            finish();
+
+        }else {
+            Toast.makeText(this,"Please enter mail id",Toast.LENGTH_LONG).show();
+        }
     }
     public void showDialog(){
         if(!progress.isShowing()){
@@ -154,7 +159,7 @@ public class AddFriend extends AppCompatActivity {
     }
 
     public void hideDialog(){
-        if(progress.isShowing() && progress != null){
+        if(progress!=null&&progress.isShowing()){
             progress.dismiss();
         }
     }

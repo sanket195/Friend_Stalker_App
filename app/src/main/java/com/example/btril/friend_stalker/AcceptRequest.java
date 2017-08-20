@@ -53,7 +53,7 @@ public class AcceptRequest extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.home) {
-            startActivity(new Intent(this, SignInSuccess.class));
+            onBackPressed();
             return true;
         }
 

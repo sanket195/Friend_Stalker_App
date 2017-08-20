@@ -1,29 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="64dp"
-    android:paddingRight="64dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    tools:context="com.example.btril.friend_stalker.MyFriends">
+    android:fitsSystemWindows="true"
+    tools:context="com.example.btril.find_buddies.MyFriends">
 
-    <Button
-        android:id="@+id/getDataClick"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="connect_to_db"
-        android:text="Click me to see data"/>
-
-    <ListView
-        android:id="@+id/friends_display_list"
-        android:layout_width="360dp"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/getDataClick">
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="34dp"
+        android:paddingRight="34dp"
+        android:paddingTop="16dp">
 
-    </ListView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/list_friends_cv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:cardElevation="5dp"
+            card_view:cardCornerRadius="4dp">
 
-</RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/getDataClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.80"
+                    android:backgroundTint="@color/colorAccent"
+                    android:onClick="connect_to_db"
+                    android:text="Show Friends"
+                    android:textColor="@color/white" />
+
+                <ImageButton
+                    android:id="@+id/view_all_on_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.20"
+                    android:backgroundTint="@color/colorAccent"
+                    android:src="@drawable/ic_nearby"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <ListView
+            android:id="@+id/friends_display_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

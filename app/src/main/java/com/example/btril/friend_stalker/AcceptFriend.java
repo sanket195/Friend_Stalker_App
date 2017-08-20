@@ -48,7 +48,7 @@ public class AcceptFriend extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.home) {
-            startActivity(new Intent(this, SignInSuccess.class));
+            onBackPressed();
             return true;
         }
 
@@ -104,9 +104,10 @@ public class AcceptFriend extends AppCompatActivity {
                 }
 
                 Toast.makeText(AcceptFriend.this, "You have Accepted The Request", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AcceptFriend.this, SignInSuccess.class);
+                /*Intent intent = new Intent(AcceptFriend.this, SignInSuccess.class);
                 startActivity(intent);
-                finish();
+                finish();*/
+                onBackPressed();
 
             }
         });
@@ -137,9 +138,11 @@ public class AcceptFriend extends AppCompatActivity {
                 }
 
                 Toast.makeText(AcceptFriend.this, "You have Rejected This Request", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(AcceptFriend.this, SignInSuccess.class);
+                /*Intent intent = new Intent(AcceptFriend.this, SignInSuccess.class);
                 startActivity(intent);
-                finish();
+                finish();*/
+
+                onBackPressed();
             }
         });
     }
@@ -207,6 +210,7 @@ public class AcceptFriend extends AppCompatActivity {
                 Intent intent = new Intent(AcceptFriend.this, SignInSuccess.class);
                 startActivity(intent);
                 finish();
+                //onBackPressed();
             }
 
         }

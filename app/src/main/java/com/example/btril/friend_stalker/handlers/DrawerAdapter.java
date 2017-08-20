@@ -25,7 +25,7 @@ public class DrawerAdapter extends BaseAdapter {
 
     public DrawerAdapter(Context context, ArrayList<NavigationItem> mNavItems) {
         mContext = context;
-        this.mNavItems= mNavItems;
+        mNavItems = mNavItems;
     }
 
     @Override
